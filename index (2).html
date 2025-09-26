@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KASHIVA - Premium Products</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #8B008B;
+            --secondary: #FF69B4;
+            --accent: #FFD700;
+            --dark: #4B0082;
+            --light: #F8F8FF;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .brand h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to right, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .brand p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .cart-icon {
+            position: relative;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--accent);
+            color: var(--dark);
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Products Section */
+        .products-section {
+            padding: 40px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            color: var(--dark);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-buy {
+            background: linear-gradient(to right, var(--primary), var(--dark));
+            color: white;
+        }
+
+        .btn-buy:hover {
+            background: linear-gradient(to right, var(--dark), var(--primary));
+            transform: scale(1.05);
+        }
+
+        .btn-cart {
+            background: var(--light);
+            color: var(--dark);
+            border: 2px solid var(--dark);
+        }
+
+        .btn-cart:hover {
+            background: var(--dark);
+            color: white;
+        }
+
+        /* Payment Modal */
+        .payment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .payment-content {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 12px;
+            padding: 30px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .payment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .payment-title {
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+
+        .close-payment {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #777;
+        }
+
+        .product-payment-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .payment-product-image {
+            width: 80px;
+            height: 80px;
+            background: #f0e6ff;
+            border-radius: 10px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: #4A00E0;
+        }
+
+        .payment-product-details h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .payment-product-details .price {
+            font-size: 22px;
+            font-weight: 700;
+            color: #4A00E0;
+        }
+
+        .payment-options {
+            margin-bottom: 25px;
+        }
+
+        .payment-options h3 {
+            margin-bottom: 15px;
+            color: #444;
+            font-size: 18px;
+        }
+
+        .upi-apps {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .upi-app {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upi-app:hover {
+            border-color: #4A00E0;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .upi-app i {
+            font-size: 30px;
+            margin-bottom: 10px;
+            color: #4A00E0;
+        }
+
+        .upi-app p {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .manual-payment {
+            background: #e8f4ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .manual-payment h3 {
+            color: #1a5fb4;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .upi-id {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .upi-id span {
+            font-weight: 600;
+            color: #4A00E0;
+            font-size: 16px;
+        }
+
+        .copy-btn {
+            background: #4A00E0;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .instructions {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff8e1;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .instructions h4 {
+            color: #b38b00;
+            margin-bottom: 10px;
+        }
+
+        .instructions ol {
+            padding-left: 20px;
+            color: #666;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+        }
+
+        /* Manual Payment Button */
+        .manual-payment-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: linear-gradient(to right, var(--primary), var(--dark));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .manual-payment-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .footer-links a {
+            display: block;
+            color: #ddd;
+            text-decoration: none;
+            margin-bottom: 8px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .copyright {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Amount Input */
+        .amount-input {
+            margin: 15px 0;
+        }
+
+        .amount-input label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        .amount-input input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .brand h1 {
+                font-size: 2.5rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .product-actions {
+                flex-direction: column;
+            }
+
+            .upi-apps {
+                grid-template-columns: 1fr;
+            }
+            
+            .upi-id {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .manual-payment-btn {
+                bottom: 20px;
+                left: 20px;
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Manual Payment Button -->
+    <button class="manual-payment-btn" onclick="openManualPayment()">
+        <i class="fas fa-wallet"></i> Manual Payment
+    </button>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="brand">
+                <h1>KASHIVA</h1>
+                <p>Premium Products at Affordable Prices</p>
+            </div>
+            <nav>
+                <div class="nav-links">
+                    <a href="#products">Products</a>
+                    <a href="#payment">Payment</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Products Section -->
+    <section class="products-section" id="products">
+        <div class="container">
+            <h2 class="section-title">Our Products</h2>
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZWFyYnVkc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60');"></div>
+                    <div class="product-info">
+                        <h3 class="product-title">Wireless Earbuds</h3>
+                        <p class="product-price">₹299</p>
+                        <div class="product-actions">
+                            <button class="btn btn-buy" onclick="openPayment('Wireless Earbuds', 299, 'fas fa-headphones')">Buy Now</button>
+                            <button class="btn btn-cart" onclick="addToCart('Wireless Earbuds', 299)">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 - Fixed Saree -->
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1618354691373-d851c5c3a990?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c2FyZWV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60');"></div>
+                    <div class="product-info">
+                        <h3 class="product-title">Synthetic Saree</h3>
+                        <p class="product-price">₹349</p>
+                        <div class="product-actions">
+                            <button class="btn btn-buy" onclick="openPayment('Synthetic Saree', 349, 'fas fa-female')">Buy Now</button>
+                            <button class="btn btn-cart" onclick="addToCart('Synthetic Saree', 349)">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 - Fixed Pants -->
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWVuJTIwcGFudHN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60');"></div>
+                    <div class="product-info">
+                        <h3 class="product-title">Men's Pants</h3>
+                        <p class="product-price">₹499</p>
+                        <div class="product-actions">
+                            <button class="btn btn-buy" onclick="openPayment('Men\'s Pants', 499, 'fas fa-male')">Buy Now</button>
+                            <button class="btn btn-cart" onclick="addToCart('Men\'s Pants', 499)">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c3VuZ2xhc3Nlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60');"></div>
+                    <div class="product-info">
+                        <h3 class="product-title">Sunglasses</h3>
+                        <p class="product-price">₹199</p>
+                        <div class="product-actions">
+                            <button class="btn btn-buy" onclick="openPayment('Sunglasses', 199, 'fas fa-sun')">Buy Now</button>
+                            <button class="btn btn-cart" onclick="addToCart('Sunglasses', 199)">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Modal -->
+    <div class="payment-modal" id="paymentModal">
+        <div class="payment-content">
+            <div class="payment-header">
+                <h2 class="payment-title">Complete Your Payment</h2>
+                <span class="close-payment" id="closePayment">&times;</span>
+            </div>
+            
+            <div class="product-payment-info">
+                <div class="payment-product-image">
+                    <i id="paymentProductIcon" class="fas fa-headphones"></i>
+                </div>
+                <div class="payment-product-details">
+                    <h3 id="paymentProductName">Wireless Earbuds</h3>
+                    <div class="price">₹<span id="paymentProductPrice">299</span></div>
+                </div>
+            </div>
+            
+            <div class="payment-options">
+                <h3>Pay directly with UPI</h3>
+                <div class="upi-apps">
+                    <div class="upi-app" onclick="openUPIApp('google pay')">
+                        <i class="fab fa-google-pay"></i>
+                        <p>Google Pay</p>
+                    </div>
+                    <div class="upi-app" onclick="openUPIApp('phonepe')">
+                        <i class="fas fa-mobile-alt"></i>
+                        <p>PhonePe</p>
+                    </div>
+                    <div class="upi-app" onclick="openUPIApp('paytm')">
+                        <i class="fab fa-paytm"></i>
+                        <p>Paytm</p>
+                    </div>
+                    <div class="upi-app" onclick="openUPIApp('fam pay')">
+                        <i class="fas fa-wallet"></i>
+                        <p>Fam Pay</p>
+                    </div>
+                </div>
+                
+                <div class="manual-payment">
+                    <h3>Manual Payment Option</h3>
+                    <p>Copy UPI ID and pay using any UPI app</p>
+                    
+                    <div class="upi-id">
+                        <span id="upiId">8812907033@fam</span>
+                        <button class="copy-btn" onclick="copyUPI()">Copy</button>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h4>Payment Instructions</h4>
+                        <ol>
+                            <li>Open your UPI app</li>
+                            <li>Paste the UPI ID: 8812907033@fam</li>
+                            <li>Enter the exact amount</li>
+                            <li>Complete the payment</li>
+                            <li>Share screenshot for confirmation</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manual Payment Modal -->
+    <div class="payment-modal" id="manualPaymentModal">
+        <div class="payment-content">
+            <div class="payment-header">
+                <h2 class="payment-title">Manual Payment</h2>
+                <span class="close-payment" id="closeManualPayment">&times;</span>
+            </div>
+            
+            <div class="amount-input">
+                <label for="manualAmount">Enter Amount (₹)</label>
+                <input type="number" id="manualAmount" placeholder="Enter amount you want to pay" min="1">
+            </div>
+            
+            <div class="payment-options">
+                <h3>Pay with your preferred UPI app</h3>
+                <div class="upi-apps">
+                    <div class="upi-app" onclick="openManualUPIApp('google pay')">
+                        <i class="fab fa-google-pay"></i>
+                        <p>Google Pay</p>
+                    </div>
+                    <div class="upi-app" onclick="openManualUPIApp('phonepe')">
+                        <i class="fas fa-mobile-alt"></i>
+                        <p>PhonePe</p>
+                    </div>
+                    <div class="upi-app" onclick="openManualUPIApp('paytm')">
+                        <i class="fab fa-paytm"></i>
+                        <p>Paytm</p>
+                    </div>
+                    <div class="upi-app" onclick="openManualUPIApp('fam pay')">
+                        <i class="fas fa-wallet"></i>
+                        <p>Fam Pay</p>
+                    </div>
+                </div>
+                
+                <div class="manual-payment">
+                    <h3>Manual Payment Option</h3>
+                    <p>Copy UPI ID and pay using any UPI app</p>
+                    
+                    <div class="upi-id">
+                        <span>8812907033@fam</span>
+                        <button class="copy-btn" onclick="copyUPI()">Copy</button>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h4>Payment Instructions</h4>
+                        <ol>
+                            <li>Open your UPI app</li>
+                            <li>Paste the UPI ID: 8812907033@fam</li>
+                            <li>Enter the amount you want to pay</li>
+                            <li>Complete the payment</li>
+                            <li>Share screenshot for confirmation</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">KASHIVA</h3>
+                    <p>Your trusted destination for premium products at affordable prices.</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <div class="footer-links">
+                        <a href="#products">Products</a>
+                        <a href="#payment">Payment</a>
+                        <a href="#contact">Contact Us</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Contact Info</h3>
+                    <p>Email: support@kashiva.com</p>
+                    <p>Phone: +91 8812907033</p>
+                    <p>UPI ID: 8812907033@fam</p>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 KASHIVA. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Cart functionality
+        let cart = [];
+        const cartIcon = document.getElementById('cartIcon');
+        const cartCount = document.getElementById('cartCount');
+        
+        // Payment modal elements
+        const paymentModal = document.getElementById('paymentModal');
+        const closePayment = document.getElementById('closePayment');
+        const manualPaymentModal = document.getElementById('manualPaymentModal');
+        const closeManualPayment = document.getElementById('closeManualPayment');
+        
+        // Add to cart function
+        function addToCart(product, price) {
+            const existingItem = cart.find(item => item.product === product);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    product: product,
+                    price: price,
+                    quantity: 1
+                });
+            }
+            
+            updateCartCount();
+            showNotification(`${product} added to cart!`);
+        }
+        
+        // Update cart count display
+        function updateCartCount() {
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+        
+        // Open payment modal for products
+        function openPayment(productName, price, iconClass) {
+            document.getElementById('paymentProductName').textContent = productName;
+            document.getElementById('paymentProductPrice').textContent = price;
+            document.getElementById('paymentProductIcon').className = iconClass;
+            
+            paymentModal.style.display = 'flex';
+        }
+        
+        // Open manual payment modal
+        function openManualPayment() {
+            manualPaymentModal.style.display = 'flex';
+        }
+        
+        // Close payment modals
+        closePayment.addEventListener('click', () => {
+            paymentModal.style.display = 'none';
+        });
+        
+        closeManualPayment.addEventListener('click', () => {
+            manualPaymentModal.style.display = 'none';
+        });
+        
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === paymentModal) {
+                paymentModal.style.display = 'none';
+            }
+            if (e.target === manualPaymentModal) {
+                manualPaymentModal.style.display = 'none';
+            }
+        });
+        
+        // Function to open UPI apps for product payments
+        function openUPIApp(appName) {
+            const upiId = "8812907033@fam";
+            const amount = document.getElementById('paymentProductPrice').textContent;
+            const productName = document.getElementById('paymentProductName').textContent;
+            const note = `Payment for ${productName} from KASHIVA`;
+            
+            openAppWithUPI(appName, upiId, amount, note);
+        }
+        
+        // Function to open UPI apps for manual payments
+        function openManualUPIApp(appName) {
+            const upiId = "8812907033@fam";
+            const amountInput = document.getElementById('manualAmount');
+            const amount = amountInput.value;
+            
+            if (!amount || amount < 1) {
+                alert("Please enter a valid amount");
+                amountInput.focus();
+                return;
+            }
+            
+            const note = `Payment to KASHIVA`;
+            
+            openAppWithUPI(appName, upiId, amount, note);
+        }
+        
+        // Common function to open UPI apps
+        function openAppWithUPI(appName, upiId, amount, note) {
+            let upiUrl;
+            
+            // Create UPI URL based on selected app
+            switch(appName.toLowerCase()) {
+                case 'google pay':
+                    upiUrl = `tez://upi/pay?pa=${upiId}&pn=KASHIVA&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
+                    break;
+                case 'phonepe':
+                    upiUrl = `phonepe://pay?pa=${upiId}&pn=KASHIVA&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
+                    break;
+                case 'paytm':
+                    upiUrl = `paytmmp://pay?pa=${upiId}&pn=KASHIVA&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
+                    break;
+                case 'fam pay':
+                    upiUrl = `fampay://pay?pa=${upiId}&pn=KASHIVA&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
+                    break;
+                default:
+                    // Generic UPI URL
+                    upiUrl = `upi://pay?pa=${upiId}&pn=KASHIVA&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
+            }
+            
+            // Try to open the UPI app
+            window.location.href = upiUrl;
+            
+            // Fallback: If app is not installed, show instructions after a delay
+            setTimeout(function() {
+                if (!document.hidden) {
+                    showNotification(`If ${appName} doesn't open, please manually open the app and send ₹${amount} to ${upiId}`);
+                    
+                    // Show detailed instructions in a modal
+                    setTimeout(function() {
+                        const confirmed = confirm(
+                            `Payment Instructions:\n\n1. Open ${appName} manually\n2. Send ₹${amount} to UPI ID: ${upiId}\n3. Add note: ${note}\n\nClick OK to copy UPI ID to clipboard`
+                        );
+                        
+                        if (confirmed) {
+                            copyUPI();
+                        }
+                    }, 1500);
+                }
+            }, 1000);
+        }
+        
+        // Function to copy UPI ID
+        function copyUPI() {
+            const upiId = "8812907033@fam";
+            navigator.clipboard.writeText(upiId).then(function() {
+                showNotification("UPI ID copied to clipboard: " + upiId);
+            }, function(err) {
+                // Fallback for older browsers
+                const textArea = document.createElement("textarea");
+                textArea.value = upiId;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showNotification("UPI ID copied to clipboard: " + upiId);
+            });
+        }
+        
+        // Show notification
+        function showNotification(message) {
+            // Remove existing notifications
+            const existingNotifications = document.querySelectorAll('.custom-notification');
+            existingNotifications.forEach(notification => {
+                notification.remove();
+            });
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.className = 'custom-notification';
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: var(--primary);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 5px;
+                z-index: 10000;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                animation: slideIn 0.3s ease;
+                max-width: 300px;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 4 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
+        }
+
+        // Add CSS for notification animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
